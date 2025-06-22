@@ -1,8 +1,7 @@
-'use client';
+"use client";
 
-import { initialOffers } from '@/data/offer';
-import { createContext, useContext, useState } from 'react';
-
+import { initialOffers } from "@/data/offer";
+import { createContext, useContext, useEffect, useState } from "react";
 
 export type Offer = {
   id: string;
@@ -21,15 +20,22 @@ const OfferContext = createContext<OfferContextType | null>(null);
 
 export const useOfferContext = () => {
   const context = useContext(OfferContext);
-  if (!context) throw new Error('OfferContext not found');
+  if (!context) throw new Error("OfferContext not found");
   return context;
 };
 
 export const OfferProvider = ({ children }: { children: React.ReactNode }) => {
-  const [offers, setOffers] = useState(initialOffers);
+  const [offers, setOffers] = useState<Offer[]>([]);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("offers");
+    setOffers(saved ? JSON.parse(saved) : initialOffers);
+  }, []);
 
   const addOffer = (offer: Offer) => {
-    setOffers((prev) => [...prev, offer]);
+    const updated = [...offers, offer];
+    setOffers(updated);
+    localStorage.setItem("offers", JSON.stringify(updated));
   };
 
   return (

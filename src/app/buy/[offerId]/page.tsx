@@ -1,7 +1,14 @@
 "use client";
 
 import { useOfferContext } from "@/contexts/offer-context";
-import { Box, Button, Container, Snackbar, Typography } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  Container,
+  Snackbar,
+  Typography,
+} from "@mui/material";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 
@@ -50,9 +57,16 @@ export default function BuyPage() {
         open={open}
         autoHideDuration={4000}
         onClose={() => setOpen(false)}
-        message="Payment successful. The influencer will contact you soon!"
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      />
+      >
+        <Alert
+          severity="success"
+          onClose={() => setOpen(false)}
+          sx={{ width: "100%" }}
+        >
+          Payment successful. The influencer will contact you soon!
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }

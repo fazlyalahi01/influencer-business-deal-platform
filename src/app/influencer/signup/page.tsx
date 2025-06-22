@@ -20,7 +20,6 @@ export default function SignupPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // You could optionally store the name/email in localStorage here
     router.push("/influencer/signin");
   };
 

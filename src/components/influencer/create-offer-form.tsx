@@ -1,36 +1,49 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useOfferContext } from "@/contexts/offer-context";
 import {
-  TextField,
-  Button,
+  Alert,
   Box,
+  Button,
+  Snackbar,
+  Stack,
+  TextField,
   Typography,
-} from '@mui/material';
-import { v4 as uuidv4 } from 'uuid';
-import { useOfferContext } from '@/contexts/offer-context';
+} from "@mui/material";
+import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 export default function CreateOfferForm() {
   const { addOffer } = useOfferContext();
-  const [title, setTitle] = useState('');
-  const [desc, setDesc] = useState('');
-  const [price, setPrice] = useState('');
+
+  const [title, setTitle] = useState("");
+  const [desc, setDesc] = useState("");
+  const [price, setPrice] = useState("");
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     addOffer({
       id: uuidv4(),
-      influencer: 'Jane Creator', // static influencer for now
+      influencer: "Jane Creator",
       title,
       description: desc,
       price,
     });
 
-    // Reset form
-    setTitle('');
-    setDesc('');
-    setPrice('');
+    setTitle("");
+    setDesc("");
+    setPrice("");
+    setSnackbarOpen(true);
+  };
+
+  const handleDummyOffer = () => {
+    setTitle("Instagram Story Shoutout");
+    setDesc(
+      "I will promote your product to my 5K+ followers via a 24h story with a link."
+    );
+    setPrice("49");
   };
 
   return (
@@ -50,9 +63,9 @@ export default function CreateOfferForm() {
       <TextField
         label="Description"
         fullWidth
-        sx={{ mb: 2 }}
         multiline
         rows={3}
+        sx={{ mb: 2 }}
         value={desc}
         onChange={(e) => setDesc(e.target.value)}
         required
@@ -69,6 +82,27 @@ export default function CreateOfferForm() {
       <Button type="submit" variant="contained">
         Create Offer
       </Button>
+
+      <Stack spacing={2} sx={{ my: 2 }}>
+        <Button variant="outlined" onClick={handleDummyOffer}>
+          Use Dummy Offer
+        </Button>
+      </Stack>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={4000}
+        onClose={() => setSnackbarOpen(false)}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert
+          severity="success"
+          onClose={() => setSnackbarOpen(false)}
+          sx={{ width: "100%" }}
+        >
+          Successfully added! You may see the offer on homepage and My Offer
+          list.
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }
