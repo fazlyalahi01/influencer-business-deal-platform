@@ -1,6 +1,10 @@
+import Footer from "@/components/footer";
+import Header from "@/components/header";
+import { OfferProvider } from "@/contexts/offer-context";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Box } from "@mui/material";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,7 +29,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+        <OfferProvider>
+          <Header />
+          <Box sx={{ minHeight: "calc(100vh - 120px)" }}>{children}</Box>
+          <Footer />
+        </OfferProvider>
       </body>
     </html>
   );
