@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Box } from "@mui/material";
+import { AuthProvider } from "@/contexts/auth-context";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,9 +31,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <OfferProvider>
-          <Header />
-          <Box sx={{ minHeight: "calc(100vh - 120px)" }}>{children}</Box>
-          <Footer />
+          <AuthProvider>
+            <Header />
+            <Box sx={{ minHeight: "calc(100vh - 120px)" }}>{children}</Box>
+            <Footer />
+          </AuthProvider>
         </OfferProvider>
       </body>
     </html>
