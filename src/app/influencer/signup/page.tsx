@@ -1,6 +1,13 @@
 "use client";
 
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -13,7 +20,14 @@ export default function SignupPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    // You could optionally store the name/email in localStorage here
     router.push("/influencer/signin");
+  };
+
+  const handleDummySignup = () => {
+    setName("Jane Influencer");
+    setEmail("influencer@example.com");
+    setPassword("password123");
   };
 
   return (
@@ -21,6 +35,8 @@ export default function SignupPage() {
       <Typography variant="h5" gutterBottom>
         Join as Influencer
       </Typography>
+
+
       <Box component="form" onSubmit={handleSubmit}>
         <TextField
           label="Name"
@@ -39,7 +55,6 @@ export default function SignupPage() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-
         <TextField
           label="Password"
           type="password"
@@ -49,6 +64,7 @@ export default function SignupPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+
         <Button variant="contained" type="submit" fullWidth>
           Submit & Continue to Login
         </Button>
@@ -56,6 +72,13 @@ export default function SignupPage() {
         <Typography variant="body2" sx={{ mt: 2 }}>
           Already have an account? <Link href="/influencer/signin">Login</Link>
         </Typography>
+
+
+      <Stack spacing={2} sx={{ my: 2 }}>
+        <Button variant="outlined" onClick={handleDummySignup}>
+          Use Dummy Credentials
+        </Button>
+      </Stack>
       </Box>
     </Container>
   );
